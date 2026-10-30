@@ -1203,6 +1203,13 @@ static int nfConfig(int width, int height, int a3, int is_16_bpp)
         return 0;
     }
 
+    // MVE streams assume both frame buffers start out black: blocks the
+    // encoder leaves untouched are never drawn. These buffers come from a
+    // reusable allocation that is not zeroed (and may still hold the previous
+    // movie), unlike the SDL surfaces used before, so clear them explicitly.
+    memset(nf_buf_cur, 0, nf_width * nf_height);
+    memset(nf_buf_prv, 0, nf_width * nf_height);
+
     dword_6B3D00 = 8 * a3 * nf_width;
     dword_6B3CEC = 7 * a3 * nf_width;
 
