@@ -85,6 +85,8 @@ bool svga_init(VideoOptions* video_options)
 {
 #ifdef _WIN32
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
+#elif defined(__ANDROID__)
+    // Desktop OpenGL is unavailable on Android; let SDL pick OpenGL ES.
 #else
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
 #endif
